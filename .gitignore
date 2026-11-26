@@ -19,3 +19,6 @@ test-results/
 data/raw/
 data/processed/
 artifacts/
+
+*.egg-info/
+*.tsbuildinfo
