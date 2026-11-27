@@ -11,7 +11,10 @@ Target organizations are small telecom, SaaS and subscription analytics teams wi
 ## North-star metric
 Incremental retention contribution margin = observed treatment contribution margin minus estimated
 counterfactual contribution margin minus incremental intervention costs over a prespecified window.
-Use randomized holdouts where feasible, report uncertainty and attrition. Predicted churn reduction,
+For a randomized campaign, compare mean contribution margin per eligible assigned customer across
+treatment and holdout (intention to treat), multiply the difference by the treated cohort size,
+and subtract incremental campaign cost once. Fix the measurement window, currency and margin
+definition before enrollment. Report uncertainty and attrition. Predicted churn reduction,
 modeled savings and scenario ROI are not observed impact. No impact claims exist in Phase 0.
 ## Functional requirements
 Phase 0: live/readiness/version APIs, typed settings, database probe, accessible responsive shell,

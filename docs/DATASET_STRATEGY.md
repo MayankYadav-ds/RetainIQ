@@ -17,7 +17,7 @@ and change notices on redistribution; retain exact schema/checksum only after le
 Competition account and accepted terms are required; access not tested. Renewal beyond a
 30-day expiration gap defines churn. Member, transaction and dated listening-log tables support
 temporal design, subject to label and event-availability audits. No randomized intervention effects.
-Full logs are multi-GB and exceed comfortable in-memory use here; exact current archive sizes were
+A [published study](https://www.nature.com/articles/s41598-025-28357-z) reports over 30 GB of activity logs. Treat this as a planning estimate for raw tables. The logs exceed comfortable in-memory use here; exact current archive sizes were
 not exposed in the retrieved official page and remain unverified. Do not use third-party size claims
 as acquired-file metadata. Inspect official inventory after authorized access and plan DuckDB batches.
 Rules restrict access and redistribution to eligible participants and permitted purposes. Public demo
