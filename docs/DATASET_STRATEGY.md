@@ -1,7 +1,9 @@
 # Dataset acquisition strategy
-Research date: 2026-11-26. No data downloaded; access and terms must be rechecked at acquisition.
+UCI verified and acquired on 2026-11-27. KKBox and IBM remain research candidates.
 
-## UCI Iranian Churn — development benchmark
+## UCI Iranian Churn — verified benchmark
+
+Iranian Churn [Dataset]. (2020). UCI Machine Learning Repository. [DOI 10.24432/C5JW3Z](https://doi.org/10.24432/C5JW3Z). UCI lists no named creators in its dataset metadata or suggested citation. [Official ZIP](https://archive.ics.uci.edu/static/public/563/iranian+churn+dataset.zip). [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) requires appropriate credit, a license link and indication of changes. RetainIQ preserves the original bytes and normalizes header names, numeric types and partitions for local use. See [acquisition evidence](DATA_QUALITY_REPORT.md).
 [Official source](https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset).
 3,150 customers, 13 features; CSV about 129 KB (41 KB download). CC BY 4.0 permits reuse with
 attribution. Public access, no Kaggle credentials. Nine-month aggregates precede month-12 labels
@@ -39,4 +41,4 @@ Approve intended purpose/license, record access terms and source; checksum origi
 manifest against data/manifest.schema.json with format checking; profile schema/duplicates/missingness;
 record target semantics and unsupported horizons; audit leakage and lawful retention. Use no PII in
 Git. Unsupported horizons use an empty list, never invented labels. Synthetic demo fixtures require
-explicit labeling and reproducible seeds. No ingestion or training belongs to Phase 0.
+explicit labeling and reproducible seeds. Phase 1 acquired UCI only. No model has been trained.

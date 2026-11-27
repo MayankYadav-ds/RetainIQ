@@ -1,4 +1,3 @@
-# Data boundary
-No datasets acquired in Phase 0. See docs/DATASET_STRATEGY.md and manifest.schema.json.
-Keep raw/processed data outside Git. Synthetic fixtures must say synthetic; do not fabricate logs
-or billing interactions and imply they are observed. App MIT license does not relicense source data.
+# Data storage
+
+Only schemas and this guide belong here in Git. The operator CLI creates ignored raw/, staging/ and processed/ directories as needed. Published version directories contain a manifest, canonical records, protected partitions and aggregate reports. Use the [operator guide](../docs/DATA_ENGINEERING.md) and [evaluation protocol](../docs/EVALUATION_PROTOCOL.md). Both JSON schemas are generated from the runtime Pydantic contracts and tested for drift. Source data retains its own license. The deterministic synthetic test fixture is generated in code.

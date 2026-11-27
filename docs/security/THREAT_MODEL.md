@@ -1,4 +1,6 @@
 # Preliminary threat model
+The table below records the Phase 0 baseline. For Phase 1 file ingestion, archive constraints, metadata allowlists and local storage risks, see [Data privacy](../DATA_PRIVACY.md) and [Data engineering](../DATA_ENGINEERING.md).
+
 Assets: code, configuration, future customer records, model artifacts and workspace identity.
 Adversaries: anonymous remote callers, malicious tenants, compromised dependencies and local users.
 Phase 0 has GET metadata only. Local OS access is trusted; public hostile deployment is not validated.

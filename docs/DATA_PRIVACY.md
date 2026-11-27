@@ -1,0 +1,7 @@
+# Snapshot privacy and access
+
+Source terms permit attributed use. RetainIQ keeps raw bytes, normalized rows, partition membership and full labels off Git and outside public web roots. Protect the data root with local OS permissions. Do not put it in a shared or synced directory. Do not log input cells, identifiers, local file paths or credentials in public reports.
+
+The read-only API serves GET /api/v1/datasets, /{dataset}, /{dataset}/versions and /{dataset}/versions/{version}/quality under the same prefix. The default approved source is the pinned UCI benchmark. Configure RETAINIQ_PUBLIC_DATASETS as a JSON list; [] hides all datasets. Synthetic fixtures require explicit selection and always have synthetic provenance. The API projects a bounded summary with source attribution, counts, per-rule warning totals, eligibility and capability flags. It has no raw-download, partition, path, SQL or ingestion input. Unknown approved-format versions return 404, invalid path parameters return 422. An empty registry is valid; API readiness still probes SQLite.
+
+The CLI and local filesystem are operator interfaces. Copies, backups and hard-crash staging remnants need the same access controls as processed data. Delete local stores and backups in accordance with local retention policy. Manifests and hashes detect accidental corruption but do not authenticate a malicious administrator. Authentication, tenant isolation and public multi-tenant operation remain future work.

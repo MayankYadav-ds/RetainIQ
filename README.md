@@ -1,6 +1,6 @@
 # RetainIQ
 
-RetainIQ is a local-first customer retention intelligence platform. Version 0.1.0 provides the working API, SQLite readiness check and connected React interface. The landing page shows which capabilities are available and which are planned. The repository contains no customer data or trained model.
+RetainIQ is a local-first customer retention intelligence platform. Version 0.2.0 adds a local UCI ingestion pipeline, a protected development/holdout split and a read-only Data Explorer. The landing page shows which capabilities are available and which are planned. The repository contains no customer data or trained model.
 
 ## Run locally on Windows
 
@@ -58,4 +58,4 @@ Errors include a safe message, code and request ID. Use X-Request-ID to correlat
 
 Start with the [project handoff](docs/PROJECT_STATE.md), [product requirements](docs/PRODUCT_REQUIREMENTS.md), [architecture](docs/architecture/OVERVIEW.md), [decisions](docs/adr), [threat model](docs/security/THREAT_MODEL.md), [ML integrity contract](docs/ML_INTEGRITY_CONTRACT.md), [dataset strategy](docs/DATASET_STRATEGY.md) and [deployment strategy](docs/DEPLOYMENT_STRATEGY.md).
 
-Phase 1 starts with lawful acquisition, checksums and a target/timestamp audit. Evidence of intervention effectiveness requires a separate causal evaluation.
+Run the full local workflow with `backend/.venv/Scripts/retainiq-data run --dataset uci_iranian_churn` from the root, then open [Data Explorer](http://127.0.0.1:5173/#datasets). See the [operator guide](docs/DATA_ENGINEERING.md), [verified report](docs/DATA_QUALITY_REPORT.md), [dictionary](docs/DATA_DICTIONARY.md) and [split protocol](docs/EVALUATION_PROTOCOL.md). Evidence of intervention effectiveness requires a separate causal evaluation.

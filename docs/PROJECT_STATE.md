@@ -1,38 +1,33 @@
-# Project state — 2026-11-27
+# RetainIQ handoff · 2026-11-27
 
-## Handoff
-Version 0.1.0 on main. The public [repository](https://github.com/MayankYadav-ds/RetainIQ) contains the Phase 0 engineering foundation. Project service expenditure is INR 0. No public app or cloud database was provisioned. Start with the root README for installation, native runtime and checks.
+**Phase 1 COMPLETE. Version 0.2.0.** Project spend INR 0. Local Windows x64 and hosted Ubuntu pass. The public repository is [MayankYadav-ds/RetainIQ](https://github.com/MayankYadav-ds/RetainIQ). The application runs locally; there is no public application deployment. Phase 2 requires separate authorization.
 
-## Implemented
-- FastAPI factory, typed environment settings with production boundaries, JSON application logs, bounded request IDs, restricted hosts/CORS and sanitized errors. The SQLAlchemy lifecycle opens SQLite, probes it per readiness request and disposes it on shutdown.
-- React/TypeScript/Vite/Tailwind shell with responsive layout, keyboard navigation, light/dark theme, planned capability labels, empty state and a real version/readiness check with timeout and retry.
-- Dependency locks, format/lint/type gates, API and UI tests, production build and Chromium integration suite. Seven decisions in docs/adr record modular monolith boundaries, local-first execution, database portability, temporal evaluation, causal interpretation, deployment cost and future guest isolation.
-- Product requirements, ML integrity contract, dataset research, manifest schema, threat model, recovery design and hosting strategy. No ingestion, training, intervention outcomes or customer data.
+## What is available
 
-## Audit
-Original workspace contained only work and outputs directories. Created an isolated RetainIQ repository. Verified Git 2.54.0, configured identity, Python 3.11.0, Node 24.19.0, npm 11.17.0 and authenticated gh 2.101.0 on Windows x64. Initial RAM 15.3 GiB visible and 3.57 GiB free, with about 725 GiB disk free. Docker CLI 29.8.2 and Compose 5.5.1 were installed. The Docker Desktop Linux engine pipe was unavailable. No security policy changes, WSL or GPU were required.
+Run the [operator workflow](DATA_ENGINEERING.md) to acquire the official UCI archive or import its pinned bytes offline, validate, profile, normalize and publish a version. Immutable raw objects and staged, verified JSONL versions live outside Git. The local registry and read-only aggregate API power the Data Explorer. The Phase 0 readiness and liveness semantics are preserved. Source registration and approval require code/configuration review. There are two functional sources: the pinned UCI snapshot and an explicitly synthetic test fixture.
 
-## Local validation
-Validated on native Windows with the locked dependencies. The built frontend and actual API ran together on ports 4173 and 8000. A separate development startup on 5173 verified the connected UI, readiness and interactive docs. Validation servers were stopped after checks.
+Real-data acceptance independently reconciled every row against the archived CSV, confirmed grouped partition integrity and reproduced identical artifacts on repeated execution. See the [quality report](DATA_QUALITY_REPORT.md), [dictionary](DATA_DICTIONARY.md), [eligibility audit](FEATURE_ELIGIBILITY.md) and [target/split contract](EVALUATION_PROTOCOL.md). The UCI version is `461e2bba687bc6e8f52284c9`. It contains 2,520 development rows and 630 protected final rows. The source supports snapshot classification only. No ML model or intervention effect was estimated.
 
-| Command (see scripts/check.py for working directories) | Tests | Passed | Failed | Skipped |
-|---|---:|---:|---:|---:|
-| python -m pytest backend/tests -q | 22 | 22 | 0 | 0 |
-| npm test | 8 | 8 | 0 | 0 |
-| npm run e2e | 2 | 2 | 0 | 0 |
+## Verification
 
-Ruff lint and format, strict Mypy, ESLint, TypeScript and Vite build passed. Database startup failure and recovery, redaction, host and CORS checks, error correlation, loading/failure/retry and browser connectivity were exercised. Axe reported zero violations in both themes at the tested viewport and the layout passed the mobile overflow assertion. Manual assistive-technology and broad browser validation remain open. Docker Compose configuration parsed successfully. Image build/run and PostgreSQL dialect behavior remain unverified.
+Implementation commit `bc539525de398b267270acd2a0ca49fb0e9f3df7` passed [hosted CI](https://github.com/MayankYadav-ds/RetainIQ/actions/runs/45946032028). The handoff changes documentation only. Both platforms used Python 3.11, Node 24 and Chromium for browser tests.
 
-## Operational limits and technical debt
-- Windows Application Control rejected SQLAlchemy's optional native extension. The documented pure-Python distribution of the same version passed. Starlette's TestClient emitted a deprecation warning for httpx. Review the supported successor before a future dependency upgrade.
-- SQLite stores no domain tables. Introduce Alembic migrations and a tested restore before persistence. Validate PostgreSQL separately. Container base tags are mutable and the current Python image includes tooling from the development lock.
-- GET-only public metadata has no authenticated tenant data. Before public tenant workflows implement identity, authorization, server-derived workspace scoping, quotas, TTL cleanup, HTTPS and proxy limits. Hosting quotas and card-free signup remain account-dependent. See docs/DEPLOYMENT_STRATEGY.md.
-- Application-level logs omit sensitive fields. Keep Uvicorn raw access logging disabled at runtime and review proxy logs before handling sensitive records.
+| Command | Windows total / passed / failed / skipped | Hosted Ubuntu total / passed / failed / skipped |
+|---|---|---|
+| python -m pytest backend/tests -q | 51 / 51 / 0 / 0 | 51 / 51 / 0 / 0 |
+| npm test | 10 / 10 / 0 / 0 | 10 / 10 / 0 / 0 |
+| npm run e2e | 3 / 3 / 0 / 0 | 3 / 3 / 0 / 0 |
 
-## Git and continuation
-Main history through validation: efcaa0c (standards), 1d45c56 (architecture and science), c42410c (API), 3ed05d4 (UI), 338e374 (quality gates). Use git log -1 for the handoff commit. The initial push was rejected by GitHub's GH007 privacy protection. The original local commits remain on prepublication-local. Publish only main, which uses the GitHub no-reply address.
+Non-counted gates passed on both platforms: Ruff lint, Ruff format, strict Mypy, ESLint, TypeScript, production Vite build, pip check and Git whitespace checks. Windows also passed an independent clean-venv install/verify, fresh real acquisition, offline idempotency, independent CSV reconciliation and a browser check of the real benchmark at the native dev URL. API docs and readiness returned 200. Test servers were stopped. Hosted CI used deterministic synthetic records. No hosted real-data run or cross-OS real-data hash comparison was performed.
 
-Phase 1 is ready to start when authorized. Use UCI as the first candidate, verify current license and attribution, record source/version/checksum and acquisition time, validate the manifest, profile actual columns, and audit feature availability, target window and censoring before choosing splits. KKBox requires separate account access and accepted terms. IBM sample redistribution needs a file-level rights check. No candidate has been acquired.
+## Limitations and recovery
 
-## Acceptance and hosted CI
-**Phase 0 COMPLETE.** The standard public GitHub Ubuntu runner passed all gates at implementation commit 338e374. Pytest passed 22/22, Vitest passed 8/8 and Playwright passed 2/2, with no failed or skipped tests. The production build, both linters, Python formatting and both type checks passed. [Verified workflow run](https://github.com/MayankYadav-ds/RetainIQ/actions/runs/45942895895). The subsequent handoff commit changes documentation only, which the workflow excludes.
+The TestClient emitted its existing httpx deprecation warning. The negative archive test intentionally produces Python's duplicate-member warning. Windows uses the documented pure-Python SQLAlchemy build. Docker and PostgreSQL were outside Phase 1 validation. The pipeline is intentionally bounded for compact snapshots (2 MB input, 10,000 rows); profiling and group audits are in memory. Local administrators can read both partitions. No authenticated tenant isolation, hostile multiuser filesystem, crash-durable transaction guarantee or public deployment has been validated. Read the [privacy boundary](DATA_PRIVACY.md) before changing publication policy. The source registry pins exact bytes; future upstream revisions require explicit review. KKBox access and IBM file-level redistribution rights remain unresolved.
+
+## Next phase
+
+Use only the development reader and the eight approved predictors for initial exploration. Preserve source version, grouping and held-out membership; design internal grouped folds and freeze preprocessing and model selection before final evaluation. Resolve charge-band semantics, status timing and the value-score formula before expanding eligibility. They do not block work on approved development fields. Age and age group remain available for controlled auditing. No Phase 2 analysis has started.
+
+## History
+
+Starting main commit `ab9e56facd58925055700f635c48c71ee1caace5`. Phase 1 implementation: ec2bdb6 (source/security contracts), ea12f2e (quality and grouping), 1687b31 (registry/CLI), 53e038a (aggregate API and temporal contracts), fac0ca3 (Data Explorer), bc53952 (regression tests and independent reconciliation). Use git log -1 for the final handoff commit. The original [Phase 0 handoff](https://github.com/MayankYadav-ds/RetainIQ/blob/ab9e56facd58925055700f635c48c71ee1caace5/docs/PROJECT_STATE.md) records its six commits and validation.
