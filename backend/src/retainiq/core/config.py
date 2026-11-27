@@ -1,13 +1,20 @@
+from pathlib import Path
 from typing import Literal
 from urllib.parse import urlparse
 
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from retainiq.data.registry import default_root
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="RETAINIQ_", env_file=".env", extra="ignore")
     environment: Literal["development", "production", "test"] = "development"
+    data_root: Path = default_root()
+    public_datasets: list[Literal["uci_iranian_churn", "synthetic_churn_fixture"]] = [
+        "uci_iranian_churn"
+    ]
     database_url: str = "sqlite:///./retainiq.db"
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
     allowed_hosts: list[str] = ["localhost", "127.0.0.1", "testserver"]

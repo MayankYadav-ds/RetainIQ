@@ -15,6 +15,7 @@ from starlette.responses import Response
 
 from retainiq import __version__
 from retainiq.api.contracts import ErrorResponse, Health, Readiness, Version
+from retainiq.api.datasets import router
 from retainiq.core.config import Settings
 from retainiq.core.logging import configure_logging
 from retainiq.infrastructure.database import build_engine, probe
@@ -129,4 +130,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def version() -> Version:
         return Version(version=__version__)
 
+    app.include_router(router(config))
     return app

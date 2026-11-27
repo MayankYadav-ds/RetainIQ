@@ -223,9 +223,16 @@ def markdown(q: Quality) -> str:
         "",
         f"{q.rows} observations, {q.features} predictors, one target. Missing cells: {q.missing}.",
         f"Target counts {q.target_counts}. Prevalence {q.prevalence:.4%}.",
-        f"Exact duplicate excess {q.exact_duplicate_excess}. Repeated predictor groups {q.predictor_duplicate_groups}; conflicting groups {q.conflicting_groups}.",
+        (
+            f"Exact duplicate excess {q.exact_duplicate_excess}. "
+            f"Repeated predictor groups {q.predictor_duplicate_groups}; "
+            f"conflicting groups {q.conflicting_groups}."
+        ),
         "",
-        "| Field | Missing (%) | Distinct | Min | Q1 | Median | Q3 | Max | Mean | Sample SD | Frequencies |",
+        (
+            "| Field | Missing (%) | Distinct | Min | Q1 | Median | Q3 | "
+            "Max | Mean | Sample SD | Frequencies |"
+        ),
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|",
     ]
     for col, f in q.fields.items():

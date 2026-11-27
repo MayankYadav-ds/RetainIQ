@@ -27,7 +27,16 @@ from .split import partitions
 
 def default_root() -> Path:
     # The data CLI and editable-install API share this location regardless of cwd.
-    return Path(os.environ.get("RETAINIQ_DATA_ROOT", str(Path.home() / ".retainiq-data")))
+    return Path(
+        os.environ.get(
+            "RETAINIQ_DATA_ROOT",
+            str(
+                Path(__file__).resolve().parents[4] / "data"
+                if (Path(__file__).resolve().parents[4] / "data/manifest.schema.json").exists()
+                else Path.cwd() / ".retainiq-data"
+            ),
+        )
+    )
 
 
 def known_raw(dataset: str) -> tuple[str, ...]:
@@ -151,7 +160,7 @@ def ingest(
             if dataset == UCI
             else "synthetic.csv",
             source_bytes=len(data),
-            columns=schema_columns(),
+            schema=schema_columns(),
             row_count=len(rows),
             development=dev,
             holdout=len(rows) - dev,
