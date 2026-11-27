@@ -19,6 +19,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -28,7 +30,16 @@ jobs:
       - run: python -m venv backend/.venv
       - run: backend/.venv/bin/python -m pip install -r backend/requirements.lock
       - run: backend/.venv/bin/python -m pip install -e backend --no-deps
-      - run: backend/.venv/bin/python -m pip check && git diff --check
+      - run: backend/.venv/bin/python -m pip check
+      - name: Check committed patch whitespace
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [[ -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]]; then
+            git diff --check "$BASE_SHA" HEAD
+          else
+            git show --check HEAD
+          fi
       - run: backend/.venv/bin/python -m ruff check backend
       - run: backend/.venv/bin/python -m ruff format --check backend
       - run: backend/.venv/bin/python -m mypy --config-file backend/pyproject.toml backend/src
