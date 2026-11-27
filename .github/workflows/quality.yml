@@ -28,6 +28,7 @@ jobs:
       - run: python -m venv backend/.venv
       - run: backend/.venv/bin/python -m pip install -r backend/requirements.lock
       - run: backend/.venv/bin/python -m pip install -e backend --no-deps
+      - run: backend/.venv/bin/python -m pip check && git diff --check
       - run: backend/.venv/bin/python -m ruff check backend
       - run: backend/.venv/bin/python -m ruff format --check backend
       - run: backend/.venv/bin/python -m mypy --config-file backend/pyproject.toml backend/src

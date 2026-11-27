@@ -40,3 +40,20 @@ test("responsive shell has no overflow or automated accessibility violations", a
   ).toBe(true);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
+
+test("explorer reads the isolated synthetic registry on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+  await page.getByRole("link", { name: "Data Explorer" }).click();
+  await expect(page.getByText("Synthetic fixture · MIT")).toBeVisible();
+  await expect(page.getByText("40", { exact: true })).toBeVisible();
+  await expect(page.getByText("temporal holdout · Unsupported")).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});

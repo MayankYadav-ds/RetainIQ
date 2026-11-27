@@ -7,10 +7,10 @@ name = "retainiq"
 version = "0.2.0"
 description = "Local-first retention intelligence foundation"
 requires-python = ">=3.11,<3.14"
-dependencies = ["fastapi", "uvicorn", "pydantic-settings", "sqlalchemy", "alembic"]
+dependencies = ["fastapi", "uvicorn", "pydantic-settings", "sqlalchemy", "alembic", "httpx"]
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-cov", "httpx", "ruff", "mypy"]
+dev = ["pytest", "pytest-cov", "ruff", "mypy"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

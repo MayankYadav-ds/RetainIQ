@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from datetime import timedelta
 from pathlib import Path
 from typing import Literal
 
@@ -158,4 +159,19 @@ class Manifest(Contract):
             or self.attribution != CITATION
         ):
             raise ValueError("unverified_source")
+        if self.acquired_at.utcoffset() != timedelta(0):
+            raise ValueError("receipt_requires_utc")
+        if any(
+            len(h) != 64 or any(c not in "0123456789abcdef" for c in h)
+            for h in self.artifact_checksums.values()
+        ):
+            raise ValueError("invalid_artifact_digest")
+        if self.dataset_name == UCI:
+            expected = (
+                (41943, "iranian+churn+dataset.zip")
+                if self.sha256 == ZIP_SHA
+                else (131728, "Customer Churn.csv")
+            )
+            if (self.source_bytes, self.source_file_name) != expected or self.row_count != 3150:
+                raise ValueError("source_inventory_mismatch")
         return self

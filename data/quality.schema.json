@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "Issue": {
+      "additionalProperties": false,
+      "properties": {
+        "rule": {
+          "title": "Rule",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "column": {
+          "title": "Column",
+          "type": "string"
+        },
+        "affected_rows": {
+          "title": "Affected Rows",
+          "type": "integer"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "handling": {
+          "title": "Handling",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rule",
+        "severity",
+        "column",
+        "affected_rows",
+        "evidence",
+        "handling"
+      ],
+      "title": "Issue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "rows": {
+      "title": "Rows",
+      "type": "integer"
+    },
+    "columns": {
+      "title": "Columns",
+      "type": "integer"
+    },
+    "features": {
+      "title": "Features",
+      "type": "integer"
+    },
+    "targets": {
+      "title": "Targets",
+      "type": "integer"
+    },
+    "types": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Types",
+      "type": "object"
+    },
+    "target_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Target Counts",
+      "type": "object"
+    },
+    "prevalence": {
+      "title": "Prevalence",
+      "type": "number"
+    },
+    "exact_duplicate_groups": {
+      "title": "Exact Duplicate Groups",
+      "type": "integer"
+    },
+    "exact_duplicate_excess": {
+      "title": "Exact Duplicate Excess",
+      "type": "integer"
+    },
+    "predictor_duplicate_groups": {
+      "title": "Predictor Duplicate Groups",
+      "type": "integer"
+    },
+    "conflicting_groups": {
+      "title": "Conflicting Groups",
+      "type": "integer"
+    },
+    "missing": {
+      "title": "Missing",
+      "type": "integer"
+    },
+    "fields": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Fields",
+      "type": "object"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/Issue"
+      },
+      "title": "Issues",
+      "type": "array"
+    }
+  },
+  "required": [
+    "rows",
+    "columns",
+    "features",
+    "targets",
+    "types",
+    "target_counts",
+    "prevalence",
+    "exact_duplicate_groups",
+    "exact_duplicate_excess",
+    "predictor_duplicate_groups",
+    "conflicting_groups",
+    "missing",
+    "fields",
+    "issues"
+  ],
+  "title": "Quality",
+  "type": "object"
+}

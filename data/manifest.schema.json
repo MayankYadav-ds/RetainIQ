@@ -1,85 +1,222 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "RetainIQ acquired dataset manifest",
-  "type": "object",
+  "$defs": {
+    "Column": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "dtype": {
+          "enum": [
+            "integer",
+            "number"
+          ],
+          "title": "Dtype",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "dtype"
+      ],
+      "title": "Column",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dataset_name": {
+      "enum": [
+        "uci_iranian_churn",
+        "synthetic_churn_fixture"
+      ],
+      "title": "Dataset Name",
+      "type": "string"
+    },
+    "source": {
+      "title": "Source",
+      "type": "string"
+    },
+    "license": {
+      "title": "License",
+      "type": "string"
+    },
+    "attribution": {
+      "title": "Attribution",
+      "type": "string"
+    },
+    "version": {
+      "pattern": "^[0-9a-f]{24}$",
+      "title": "Version",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    },
+    "acquired_at": {
+      "format": "date-time",
+      "title": "Acquired At",
+      "type": "string"
+    },
+    "source_file_name": {
+      "title": "Source File Name",
+      "type": "string"
+    },
+    "source_bytes": {
+      "exclusiveMinimum": 0,
+      "maximum": 2000000,
+      "title": "Source Bytes",
+      "type": "integer"
+    },
+    "schema": {
+      "items": {
+        "$ref": "#/$defs/Column"
+      },
+      "title": "Schema",
+      "type": "array"
+    },
+    "prediction_target": {
+      "const": "churn",
+      "default": "churn",
+      "title": "Prediction Target",
+      "type": "string"
+    },
+    "target_definition": {
+      "const": "Month-12 churn state following first-nine-month aggregates",
+      "default": "Month-12 churn state following first-nine-month aggregates",
+      "title": "Target Definition",
+      "type": "string"
+    },
+    "observation_window": {
+      "default": "First nine months",
+      "title": "Observation Window",
+      "type": "string"
+    },
+    "outcome_window": {
+      "default": "State at end of month twelve; event date unavailable",
+      "title": "Outcome Window",
+      "type": "string"
+    },
+    "supported_prediction_horizons_days": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 0,
+      "title": "Supported Prediction Horizons Days",
+      "type": "array"
+    },
+    "provenance": {
+      "title": "Provenance",
+      "type": "string"
+    },
+    "known_limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Known Limitations",
+      "type": "array"
+    },
+    "identifier_available": {
+      "const": false,
+      "default": false,
+      "title": "Identifier Available",
+      "type": "boolean"
+    },
+    "privacy": {
+      "const": "local row data; approved aggregates only",
+      "default": "local row data; approved aggregates only",
+      "title": "Privacy",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "pipeline_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Pipeline Version",
+      "type": "string"
+    },
+    "split_seed": {
+      "const": 20261127,
+      "default": 20261127,
+      "title": "Split Seed",
+      "type": "integer"
+    },
+    "holdout_fraction": {
+      "const": "1/5",
+      "default": "1/5",
+      "title": "Holdout Fraction",
+      "type": "string"
+    },
+    "row_count": {
+      "exclusiveMinimum": 1,
+      "maximum": 10000,
+      "title": "Row Count",
+      "type": "integer"
+    },
+    "feature_count": {
+      "const": 13,
+      "default": 13,
+      "title": "Feature Count",
+      "type": "integer"
+    },
+    "development": {
+      "exclusiveMinimum": 0,
+      "title": "Development",
+      "type": "integer"
+    },
+    "holdout": {
+      "exclusiveMinimum": 0,
+      "title": "Holdout",
+      "type": "integer"
+    },
+    "artifact_checksums": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Artifact Checksums",
+      "type": "object"
+    },
+    "processed_sha256": {
+      "title": "Processed Sha256",
+      "type": "string"
+    },
+    "validation_status": {
+      "enum": [
+        "passed_with_warnings",
+        "passed"
+      ],
+      "title": "Validation Status",
+      "type": "string"
+    }
+  },
   "required": [
     "dataset_name",
     "source",
     "license",
+    "attribution",
     "version",
     "sha256",
     "acquired_at",
+    "source_file_name",
+    "source_bytes",
     "schema",
-    "prediction_target",
-    "supported_prediction_horizons_days",
     "provenance",
-    "known_limitations"
+    "known_limitations",
+    "row_count",
+    "development",
+    "holdout",
+    "artifact_checksums",
+    "processed_sha256",
+    "validation_status"
   ],
-  "properties": {
-    "dataset_name": {
-      "type": "string",
-      "minLength": 1
-    },
-    "source": {
-      "type": "string",
-      "format": "uri"
-    },
-    "license": {
-      "type": "string",
-      "minLength": 1
-    },
-    "version": {
-      "type": "string",
-      "minLength": 1
-    },
-    "sha256": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
-    },
-    "acquired_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "schema": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "required": [
-          "name",
-          "dtype"
-        ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "dtype": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-    "prediction_target": {
-      "type": "string"
-    },
-    "supported_prediction_horizons_days": {
-      "type": "array",
-      "uniqueItems": true,
-      "items": {
-        "type": "integer",
-        "minimum": 1
-      }
-    },
-    "provenance": {
-      "type": "string"
-    },
-    "known_limitations": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    }
-  },
-  "additionalProperties": false
+  "title": "Manifest",
+  "type": "object"
 }

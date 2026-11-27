@@ -30,6 +30,10 @@ def download(out: BinaryIO) -> None:
                     if resp.is_redirect:
                         raise ValueError("redirect_denied")
                     resp.raise_for_status()
+                    if resp.headers.get("Content-Encoding", "identity").lower() != "identity":
+                        raise ValueError("unsupported_transport_encoding")
+                    if int(resp.headers.get("Content-Length", "0")) > LIMIT:
+                        raise ValueError("download_limit")
                     for b in resp.iter_bytes(65536):
                         if out.tell() + len(b) > LIMIT:
                             raise ValueError("download_limit")
