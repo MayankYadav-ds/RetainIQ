@@ -1,0 +1,17 @@
+services:
+  backend:
+    build: ./backend
+    ports: ["127.0.0.1:8000:8000"]
+    environment:
+      RETAINIQ_CORS_ORIGINS: '["http://localhost:8080","http://127.0.0.1:8080"]'
+    volumes: ["retainiq-data:/data"]
+    mem_limit: 512m
+  frontend:
+    build: ./frontend
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      backend:
+        condition: service_healthy
+    mem_limit: 128m
+volumes:
+  retainiq-data:

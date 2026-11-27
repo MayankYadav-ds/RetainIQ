@@ -11,7 +11,6 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.concurrency import run_in_threadpool
 from starlette.exceptions import HTTPException
-from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import Response
 
 from retainiq import __version__
@@ -48,7 +47,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         redoc_url=None,
     )
     app.state.initialized = False
-    app.add_middleware(TrustedHostMiddleware, allowed_hosts=config.allowed_hosts)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=config.cors_origins,
@@ -80,12 +78,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
         start = time.perf_counter()
         try:
-            response = await call_next(request)
+            if request.url.hostname in config.allowed_hosts:
+                response = await call_next(request)
+            else:
+                response = error(request, 400, "invalid_host", "Host is not allowed")
         except Exception:
             logger.error("unhandled_request_error", extra={"request_id": request.state.request_id})
             response = error(request, 500, "internal_error", "An internal error occurred")
-        if response.status_code == 400:
-            response = error(request, 400, "invalid_host", "Host is not allowed")
         response.headers["X-Request-ID"] = request.state.request_id
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Cache-Control"] = "no-store"

@@ -8,4 +8,5 @@ def build_engine(url: str) -> Engine:
 
 def probe(engine: Engine) -> bool:
     with engine.connect() as connection:
-        return connection.execute(text("SELECT 1")).scalar_one() == 1
+        value: object = connection.execute(text("SELECT 1")).scalar_one()
+        return isinstance(value, int) and value == 1

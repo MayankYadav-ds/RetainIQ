@@ -1,0 +1,42 @@
+name: Quality
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['docs/**', '*.md', 'LICENSE']
+  pull_request:
+    paths-ignore: ['docs/**', '*.md', 'LICENSE']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    # Standard public runner only. No paid larger runner, cache or artifact storage.
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python -m venv backend/.venv
+      - run: backend/.venv/bin/python -m pip install -r backend/requirements.lock
+      - run: backend/.venv/bin/python -m pip install -e backend --no-deps
+      - run: backend/.venv/bin/python -m ruff check backend
+      - run: backend/.venv/bin/python -m ruff format --check backend
+      - run: backend/.venv/bin/python -m mypy --config-file backend/pyproject.toml backend/src
+      - run: backend/.venv/bin/python -m pytest backend/tests -q
+      - run: npm ci
+        working-directory: frontend
+      - run: npm run lint && npm run typecheck && npm test && npm run build
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: npm run e2e
+        working-directory: frontend
