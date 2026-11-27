@@ -15,7 +15,7 @@ class Readiness(BaseModel):
 class Version(BaseModel):
     name: str = "RetainIQ"
     version: str
-    phase: int = 0
+    phase: int = 1
 
 
 class ErrorDetail(BaseModel):

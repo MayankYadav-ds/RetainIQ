@@ -11,7 +11,7 @@ export interface Connection {
   version: Version;
   readiness: Readiness;
 }
-const base = (
+export const base = (
   import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000"
 ).replace(/\/$/, "");
 

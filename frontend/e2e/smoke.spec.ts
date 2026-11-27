@@ -5,7 +5,7 @@ test("built frontend connects to actual backend and survives API failure", async
 }) => {
   await page.goto("/");
   await expect(page.getByText("Backend connected")).toBeVisible();
-  await expect(page.getByText("v0.1.0 · Database reachable")).toBeVisible();
+  await expect(page.getByText("v0.2.0 · Database reachable")).toBeVisible();
   const ready = await page.request.get("http://127.0.0.1:8000/ready");
   expect(await ready.json()).toEqual({
     status: "ready",

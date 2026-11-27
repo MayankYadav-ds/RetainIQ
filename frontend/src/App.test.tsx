@@ -2,7 +2,7 @@ import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import App from "./App";
 import { verifyConnection } from "./api";
-const version = { name: "RetainIQ", version: "0.1.0", phase: 0 };
+const version = { name: "RetainIQ", version: "0.2.0", phase: 1 };
 const ready = { status: "ready", database: "reachable" };
 const fetchMock = vi.fn();
 beforeEach(() => {
@@ -27,7 +27,7 @@ describe("application", () => {
       "Understand risk.",
     );
     expect(screen.getAllByText("PLANNED")).toHaveLength(3);
-    expect(screen.getByText("No customer data loaded")).toBeInTheDocument();
+    expect(screen.getByText("Dataset evidence")).toBeInTheDocument();
     await screen.findByText("Backend connected");
   });
   it("shows loading until both resource checks resolve", async () => {
@@ -49,7 +49,7 @@ describe("application", () => {
     success();
     render(<App />);
     await screen.findByText("Backend connected");
-    expect(screen.getByText("v0.1.0 · Database reachable")).toBeInTheDocument();
+    expect(screen.getByText("v0.2.0 · Database reachable")).toBeInTheDocument();
     expect(fetchMock.mock.calls.map((c) => c[0])).toEqual(
       expect.arrayContaining([
         "http://127.0.0.1:8000/ready",
