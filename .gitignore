@@ -22,3 +22,9 @@ artifacts/
 
 *.egg-info/
 *.tsbuildinfo
+
+data/staging/
+data/manifests/
+data/reports/
+**/.retainiq-data/
+
