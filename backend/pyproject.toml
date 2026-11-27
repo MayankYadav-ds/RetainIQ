@@ -29,3 +29,6 @@ select = ["E", "F", "I", "B", "UP"]
 python_version = "3.11"
 strict = true
 mypy_path = "src"
+
+[project.scripts]
+retainiq-data = "retainiq.data.cli:main"

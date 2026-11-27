@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 from .contract import SEED, digest, encoded
 from .quality import Row, group_key
 
