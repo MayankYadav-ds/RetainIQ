@@ -67,15 +67,7 @@ export default function Analytics({
       if (!response.ok) throw Error();
       return response.json();
     };
-    Promise.all([
-      get(
-        "/api/v1/analytics" +
-          (import.meta.env.VITE_ANALYTICS_DATASET === "synthetic_churn_fixture"
-            ? "?dataset=synthetic_churn_fixture"
-            : ""),
-      ),
-      get("/api/v1/features"),
-    ])
+    Promise.all([get("/api/v1/analytics"), get("/api/v1/features")])
       .then(([report, catalog]) => {
         if (!controller.signal.aborted) setResult({ report, catalog });
       })
@@ -246,19 +238,18 @@ export default function Analytics({
                   {report.conflicting_groups} with conflicting labels.{" "}
                   {report.folds.length} validation folds.
                 </p>
-                <label>
-                  Feature{" "}
-                  <select
-                    value={dist?.name ?? ""}
-                    onChange={(e) => select(e.target.value)}
-                  >
-                    {report.distributions.map((d) => (
-                      <option key={d.name} value={d.name}>
-                        {label(d.name)}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                <label htmlFor="distribution-feature">Feature</label>{" "}
+                <select
+                  id="distribution-feature"
+                  value={dist?.name ?? ""}
+                  onChange={(e) => select(e.target.value)}
+                >
+                  {report.distributions.map((d) => (
+                    <option key={d.name} value={d.name}>
+                      {label(d.name)}
+                    </option>
+                  ))}
+                </select>
                 {dist && (
                   <>
                     <p>
@@ -331,26 +322,25 @@ export default function Analytics({
                   Intervals above assume independent observations and may be too
                   narrow for grouped data.
                 </p>
-                <label>
-                  Compare feature{" "}
-                  <select
-                    value={comparison}
-                    onChange={(e) => compare(e.target.value)}
-                  >
-                    <option value="">All pairs</option>
-                    {[
-                      ...new Set(
-                        report.associations.flatMap((a) => [a.left, a.right]),
-                      ),
-                    ]
-                      .sort()
-                      .map((n) => (
-                        <option key={n} value={n}>
-                          {label(n)}
-                        </option>
-                      ))}
-                  </select>
-                </label>
+                <label htmlFor="association-feature">Compare feature</label>{" "}
+                <select
+                  id="association-feature"
+                  value={comparison}
+                  onChange={(e) => compare(e.target.value)}
+                >
+                  <option value="">All pairs</option>
+                  {[
+                    ...new Set(
+                      report.associations.flatMap((a) => [a.left, a.right]),
+                    ),
+                  ]
+                    .sort()
+                    .map((n) => (
+                      <option key={n} value={n}>
+                        {label(n)}
+                      </option>
+                    ))}
+                </select>
                 <table>
                   <caption>
                     Pearson correlations · n = {number(report.eligible)}
@@ -367,7 +357,15 @@ export default function Analytics({
                       <tr key={a.left + a.right}>
                         <th scope="row">{label(a.left)}</th>
                         <td>{label(a.right)}</td>
-                        <td>{number(a.r)}</td>
+                        <td>
+                          {number(a.r)}{" "}
+                          <meter
+                            aria-hidden="true"
+                            min={-1}
+                            max={1}
+                            value={a.r}
+                          />
+                        </td>
                       </tr>
                     ))}
                   </tbody>

@@ -5,7 +5,7 @@ test("built frontend connects to actual backend and survives API failure", async
 }) => {
   await page.goto("/");
   await expect(page.getByText("Backend connected")).toBeVisible();
-  await expect(page.getByText("v0.2.0 · Database reachable")).toBeVisible();
+  await expect(page.getByText("v0.3.0 · Database reachable")).toBeVisible();
   const ready = await page.request.get("http://127.0.0.1:8000/ready");
   expect(await ready.json()).toEqual({
     status: "ready",
@@ -56,4 +56,40 @@ test("explorer reads the isolated synthetic registry on mobile", async ({
     ),
   ).toBe(true);
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
+test("analytics pages render actual synthetic aggregates on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/");
+  await page.getByRole("link", { name: "Analytics", exact: true }).click();
+  await expect(
+    page.getByText(
+      "Synthetic fixture · Eligible development observations only",
+    ),
+  ).toBeVisible();
+  await page.getByLabel("Feature", { exact: true }).selectOption("tariff_plan");
+  await expect(
+    page.getByRole("table", {
+      name: "Distribution counts by value or interval",
+    }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Feature Lab" }).click();
+  await expect(
+    page.getByText(/Batch and single-record parity: verified/),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Evaluation design" }).click();
+  await expect(
+    page
+      .getByRole("table", { name: "Development validation folds" })
+      .locator("tbody tr"),
+  ).toHaveCount(5);
+  await page.getByRole("button", { name: "Dark theme" }).click();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });

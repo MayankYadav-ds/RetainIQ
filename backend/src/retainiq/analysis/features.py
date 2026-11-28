@@ -7,6 +7,7 @@ from typing import Literal
 
 from retainiq.data.contract import APPROVED, digest, encoded
 
+from .integrity import key
 from .view import View
 
 VERSION = "features-v1"
@@ -96,6 +97,10 @@ def fit(view: View, membership: list[int], fold: int, fs: str, family: str, role
         or fold not in membership
     ):
         raise ValueError("invalid_fit_scope")
+    membership_by_group: dict[str, int] = {}
+    for row, i in zip(view.x, membership, strict=True):
+        if i < 0 or membership_by_group.setdefault(key(row, APPROVED), i) != i:
+            raise ValueError("invalid_fold_groups")
     schema = fingerprint(fs)
     train = [design(x, fs, schema) for x, f in zip(view.x, membership, strict=True) if f != fold]
     if not train:

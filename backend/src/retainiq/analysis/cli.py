@@ -9,6 +9,7 @@ from retainiq.data.registry import default_root
 from .features import CATALOG, SETS
 from .integrity import audit
 from .registry import identity, run, verify_artifacts
+from .view import folds, load
 
 
 def main() -> int:
@@ -40,6 +41,17 @@ def main() -> int:
     try:
         if a.command == "audit-partitions":
             result = audit(a.root, a.dataset, a.version)[0]
+        elif a.command == "create-folds":
+            _, quarantine = audit(a.root, a.dataset, a.version)
+            view = load(a.root, a.dataset, a.version, quarantine)
+            member = folds(view)
+            result = [
+                [
+                    sum(f == i and y == j for f, y in zip(member, view.y, strict=True))
+                    for j in (0, 1)
+                ]
+                for i in range(5)
+            ]
         elif a.command == "features":
             result = {
                 "names": SETS[a.set],

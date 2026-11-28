@@ -25,11 +25,17 @@ def load(root: Path, dataset: str, version: str, quarantine: set[int]) -> View:
         if rid in quarantine:
             continue
         row = cast(dict[str, int], sample["features"])
-        if set(row) != set(APPROVED):
+        if set(row) != set(APPROVED) or any(type(v) is not int or v < 0 for v in row.values()):
+            raise ValueError("input_schema")
+        if row["complains"] not in (0, 1) or row["tariff_plan"] not in (1, 2):
+            raise ValueError("invalid_category")
+        if type(sample["target"]) is not int or sample["target"] not in (0, 1):
             raise ValueError("input_schema")
         ids.append(rid)
         x.append(row)
-        y.append(cast(int, sample["target"]))
+        y.append(sample["target"])
+    if not set(quarantine).isdisjoint(ids) or len(set(ids)) != len(ids):
+        raise ValueError("invalid_development_identity")
     return View(ids, x, y)
 
 
@@ -49,7 +55,7 @@ def folds(view: View, k: int = 5) -> list[int]:
         pos = sum(view.y[i] for i in indices)
         size = [len(indices) - pos, pos]
 
-        def increase(f: int) -> float:
+        def increase(f: int, size: list[int] = size) -> float:
             return sum(
                 ((bins[f][j] + size[j]) ** 2 - bins[f][j] ** 2) / totals[j] ** 2 for j in (0, 1)
             )

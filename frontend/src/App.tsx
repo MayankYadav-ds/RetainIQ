@@ -141,7 +141,7 @@ export default function App() {
                   </a>
                 </div>
                 <p className="phase-note">
-                  <span className="phase-pill">PHASE 1</span> Data engineering ·
+                  <span className="phase-pill">PHASE 2</span> Data engineering ·
                   No trained model yet
                 </p>
               </div>
@@ -282,7 +282,7 @@ export default function App() {
           Retain<span>IQ</span>
         </a>
         <span>Evidence before impact.</span>
-        <span>v0.2.0 · Phase 1</span>
+        <span>v0.3.0 · Phase 2</span>
       </footer>
     </>
   );

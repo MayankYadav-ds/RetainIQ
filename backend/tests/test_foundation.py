@@ -25,13 +25,13 @@ def test_startup_and_shutdown(tmp_path):
     assert not app.state.initialized
     with TestClient(app) as client:
         assert app.state.initialized
-        assert client.get("/").json() == {"name": "RetainIQ", "version": "0.2.0", "phase": 1}
+        assert client.get("/").json() == {"name": "RetainIQ", "version": "0.3.0", "phase": 2}
     assert not app.state.initialized
 
 
 def test_health_and_version(client):
     assert client.get("/health").json() == {"status": "alive"}
-    assert client.get("/api/v1/version").json()["version"] == "0.2.0"
+    assert client.get("/api/v1/version").json()["version"] == "0.3.0"
     assert client.get("/ready").json() == {"status": "ready", "database": "reachable"}
 
 

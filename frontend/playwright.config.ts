@@ -12,11 +12,12 @@ export default defineConfig({
   use: { baseURL: "http://127.0.0.1:4173", browserName: "chromium" },
   webServer: [
     {
-      command: `"${python}" -m retainiq.data.cli run --dataset synthetic_churn_fixture && "${python}" -m uvicorn retainiq.main:create_app --factory --no-access-log --host 127.0.0.1 --port 8000`,
+      command: `"${python}" ../scripts/prepare_analysis_fixture.py && "${python}" -m uvicorn retainiq.main:create_app --factory --no-access-log --host 127.0.0.1 --port 8000`,
       url: "http://127.0.0.1:8000/ready",
       reuseExistingServer: false,
       env: {
         RETAINIQ_DATA_ROOT: ".retainiq-data",
+        RETAINIQ_ANALYTICS_DATASETS: '["synthetic_churn_fixture"]',
         RETAINIQ_PUBLIC_DATASETS: '["synthetic_churn_fixture"]',
         RETAINIQ_CORS_ORIGINS: '["http://127.0.0.1:4173"]',
       },

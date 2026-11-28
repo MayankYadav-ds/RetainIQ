@@ -131,7 +131,8 @@ def run(root: Path, dataset: str, version: str) -> Report:
         if d.name not in CAT:
             s = d.summary
             lines.append(
-                f"| {d.name} | {d.unit} | {d.n} | {s['mean']:.3f} | {s['median']:.3f} | {s['iqr']:.3f} | {s['outliers']:.0f} |"
+                f"| {d.name} | {d.unit} | {d.n} | {s['mean']:.3f} | {s['median']:.3f} | "
+                f"{s['iqr']:.3f} | {s['outliers']:.0f} |"
             )
     with staging(root) as temp:
         staged = temp / "analysis"

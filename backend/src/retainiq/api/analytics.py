@@ -24,10 +24,16 @@ def router(settings: Settings) -> APIRouter:
 
     @routes.get("/analytics", response_model=Report | None)
     def analytics(
-        dataset: Literal["uci_iranian_churn", "synthetic_churn_fixture"] = "uci_iranian_churn",
+        dataset: Literal["uci_iranian_churn", "synthetic_churn_fixture"] | None = None,
         version: Annotated[str | None, Query(pattern="^[0-9a-f]{24}$")] = None,
     ) -> Report | None:
-        if dataset not in settings.analytics_datasets or dataset not in settings.public_datasets:
+        if dataset is None:
+            dataset = next(iter(settings.analytics_datasets), None)
+        if (
+            dataset is None
+            or dataset not in settings.analytics_datasets
+            or dataset not in settings.public_datasets
+        ):
             return None
         keys = versions(settings.data_root, dataset)
         if version is not None and version not in keys:
