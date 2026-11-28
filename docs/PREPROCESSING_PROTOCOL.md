@@ -1,0 +1,5 @@
+# Training and serving transformations
+
+The same strict ordered input contract is used by single-record and batch transformation. A versioned schema fingerprint pins formulas and order. The standard library provides log1p and training-only mean and population standard deviation. Zero-variance scale uses one. Source schema forbids missing values, so there are no imputation parameters. Unknown tariff categories are mapped to an explicit indicator. Bit-for-bit parity passed on this host, and the independent reference uses tolerance 1e-10.
+
+Fit receives eligible development data, group-consistent membership and an explicit training role and validation fold. Validate and serve using the returned state. The demonstration fit is scoped to training rows outside fold zero and serialized as JSON for reproducibility review. It is not a production artifact or a trusted artifact loading interface. No estimator was fit. Prepare new fitted transforms in each future inner or outer training fold. Candidate specs are separately versioned unfitted contracts.
