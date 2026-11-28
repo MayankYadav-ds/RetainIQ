@@ -14,6 +14,7 @@ from starlette.exceptions import HTTPException
 from starlette.responses import Response
 
 from retainiq import __version__
+from retainiq.api.analytics import router as analytics_router
 from retainiq.api.contracts import ErrorResponse, Health, Readiness, Version
 from retainiq.api.datasets import router
 from retainiq.core.config import Settings
@@ -131,4 +132,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return Version(version=__version__)
 
     app.include_router(router(config))
+    app.include_router(analytics_router(config))
     return app

@@ -672,3 +672,54 @@ footer > span:last-child {
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1rem;
 }
+
+.header nav {
+  flex-wrap: wrap;
+}
+.analytics-page select {
+  background: var(--bg);
+  color: inherit;
+  max-width: 100%;
+  border: 1px solid currentColor;
+  padding: 4px;
+  border-radius: 4px;
+}
+.analytics-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+.analytics-page caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+.analytics-page th,
+.analytics-page td {
+  text-align: left;
+  padding: 0.4rem 0.25rem;
+  border-bottom: 1px solid currentColor;
+}
+.analysis-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.bars {
+  display: grid;
+  gap: 0.3rem;
+  margin: 1rem 0;
+}
+.bars > div {
+  display: grid;
+  grid-template-columns: minmax(4rem, 7rem) 1fr 3rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+.bars b {
+  display: block;
+  background: var(--accent);
+  min-height: 0.65rem;
+}

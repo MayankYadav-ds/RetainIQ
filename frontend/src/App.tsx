@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { verifyConnection, type Connection } from "./api";
 
+import Analytics from "./Analytics";
 import DataExplorer from "./DataExplorer";
 
 type Status =
@@ -29,11 +30,9 @@ const capabilities = [
 ];
 
 export default function App() {
-  const [explorer, setExplorer] = useState(
-    window.location.hash === "#datasets",
-  );
+  const [explorer, setExplorer] = useState(window.location.hash);
   useEffect(() => {
-    const changed = () => setExplorer(window.location.hash === "#datasets");
+    const changed = () => setExplorer(window.location.hash);
     window.addEventListener("hashchange", changed);
     return () => window.removeEventListener("hashchange", changed);
   }, []);
@@ -78,6 +77,9 @@ export default function App() {
         </a>
         <nav aria-label="Main navigation">
           <a href="#datasets">Data Explorer</a>
+          <a href="#analytics">Analytics</a>
+          <a href="#features">Feature Lab</a>
+          <a href="#evaluation">Evaluation design</a>
           <a href="#approach">Approach</a>
           <a href="#foundation">Foundation</a>
           <a href="https://github.com/MayankYadav-ds/RetainIQ">
@@ -94,7 +96,19 @@ export default function App() {
         </button>
       </header>
       <main id="main">
-        {explorer ? (
+        {explorer === "#analytics" ||
+        explorer === "#features" ||
+        explorer === "#evaluation" ? (
+          <Analytics
+            mode={
+              explorer === "#analytics"
+                ? "analytics"
+                : explorer === "#features"
+                  ? "features"
+                  : "evaluation"
+            }
+          />
+        ) : explorer === "#datasets" ? (
           <DataExplorer />
         ) : (
           <>
