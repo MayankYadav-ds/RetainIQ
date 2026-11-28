@@ -134,11 +134,12 @@ class Procedure:
 
 
 def train(v: View, family: str, outer: int, quick: bool = False) -> Procedure:
-    roles = folds(v, 5)
+    roles = folds(v, 4 if quick else 5)
     core = subset(v, [i for i, f in enumerate(roles) if f >= 2])
     cal = subset(v, [i for i, f in enumerate(roles) if f == 0])
     decision = subset(v, [i for i, f in enumerate(roles) if f == 1])
-    inner = folds(core, 3)
+    k = 2 if quick else 3
+    inner = folds(core, k)
     candidates: list[dict[str, Any]] = []
     start = time.perf_counter()
     with threadpool_limits(limits=1):
@@ -146,12 +147,12 @@ def train(v: View, family: str, outer: int, quick: bool = False) -> Procedure:
             for params in GRIDS[family][:1] if quick else GRIDS[family]:
                 scores = []
                 try:
-                    for i in range(3):
+                    for i in range(k):
                         itr = subset(core, [j for j, k in enumerate(inner) if k != i])
                         iva = subset(core, [j for j, k in enumerate(inner) if k == i])
                         raw = fit_base(itr, family, fs, params, i).scores(iva.x)
                         scores.append(float(average_precision_score(iva.y, raw)))
-                    candidates.append({"fs": fs, "parameters": params, "ap": sum(scores) / 3})
+                    candidates.append({"fs": fs, "parameters": params, "ap": sum(scores) / k})
                 except (ValueError, RuntimeError, OSError, ImportError) as exc:
                     candidates.append({"fs": fs, "parameters": params, "error": type(exc).__name__})
         complete = [c for c in candidates if "ap" in c]

@@ -1,6 +1,6 @@
 """Bounded and explicitly enabled local benchmark inference routes."""
 
-from collections.abc import Awaitable, Callable
+from collections.abc import Callable, Coroutine
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request, Response
@@ -14,7 +14,7 @@ from retainiq.ml.inference import LIMITATIONS, TARGET, Input, Prediction, Servic
 
 
 class BodyLimit(APIRoute):
-    def get_route_handler(self) -> Callable[[Request], Awaitable[Response]]:
+    def get_route_handler(self) -> Callable[[Request], Coroutine[Any, Any, Response]]:
         handler = super().get_route_handler()
 
         async def limited(request: Request) -> Response:

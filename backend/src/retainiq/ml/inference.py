@@ -13,7 +13,10 @@ from .registry import load_model
 
 Count = Annotated[int, Field(strict=True, ge=0, le=2**53 - 1)]
 TARGET = "Month-twelve churn state using first-nine-month aggregates"
-LIMITATIONS = "Snapshot benchmark. Exact daily horizons, causal effects and production calibration are unverified."
+LIMITATIONS = (
+    "Snapshot benchmark. Exact daily horizons, causal effects and production calibration "
+    "are unverified."
+)
 
 
 class Input(BaseModel):
