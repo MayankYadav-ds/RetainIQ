@@ -9,7 +9,9 @@ VIEW = "136a09a0f2ec6a66bf3ca6f3"
 RECORDS = "db4bbb548cc23ae66d5d66ab75ab04f49549ac33704f0b665e04b0dd2dd18f53"
 HOLDOUT = "e9509c84629e8e03827d8d27823216c9a890b86cc589f7afa77b1265584ba63a"
 FOLDS = "82a46397d506eca6252994b2999fb2013a01579aa5c49ab49fa53abcd38bd776"
-GRIDS = {
+from typing import Any
+
+GRIDS: dict[str, list[dict[str, Any]]] = {
     "logistic": [{"C": 0.5}, {"C": 2.0, "class_weight": "balanced"}],
     "tree": [
         {"max_depth": 3, "min_samples_leaf": 12},

@@ -17,6 +17,7 @@ from retainiq import __version__
 from retainiq.api.analytics import router as analytics_router
 from retainiq.api.contracts import ErrorResponse, Health, Readiness, Version
 from retainiq.api.datasets import router
+from retainiq.api.predictions import router as prediction_router
 from retainiq.core.config import Settings
 from retainiq.core.logging import configure_logging
 from retainiq.infrastructure.database import build_engine, probe
@@ -53,8 +54,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         CORSMiddleware,
         allow_origins=config.cors_origins,
         allow_credentials=False,
-        allow_methods=["GET"],
-        allow_headers=["X-Request-ID"],
+        allow_methods=["GET", "POST"],
+        allow_headers=["X-Request-ID", "Content-Type"],
         expose_headers=["X-Request-ID"],
     )
 
@@ -133,4 +134,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app.include_router(router(config))
     app.include_router(analytics_router(config))
+    app.include_router(prediction_router(config))
     return app

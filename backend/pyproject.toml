@@ -33,6 +33,7 @@ mypy_path = "src"
 
 [project.scripts]
 retainiq-data = "retainiq.data.cli:main"
+retainiq-ml = "retainiq.ml.cli:main"
 retainiq-analysis = "retainiq.analysis.cli:main"
 
 [[tool.mypy.overrides]]
