@@ -61,19 +61,23 @@ def policy(
         {"threshold": i / 100, **confusion(y, [int(q >= i / 100) for q in p])} for i in range(5, 96)
     ]
     if objective in ("f1", "f2"):
-        score = lambda r: r[objective]
+        metric = objective
     elif objective == "recall_at_precision":
         sweep = [r for r in sweep if r["precision"] >= minimum and r["predicted_positive_rate"] > 0]
-        score = lambda r: r["recall"]
+        metric = "recall"
     elif objective == "precision_at_recall":
         sweep = [r for r in sweep if r["recall"] >= minimum]
-        score = lambda r: r["precision"]
+        metric = "precision"
     elif objective == "cost":
-        score = lambda r: -fp_cost * r["fp"] - fn_cost * r["fn"]
+        metric = "cost"
     else:
         raise ValueError("unknown_threshold_objective")
     if not sweep:
         raise ValueError("no_feasible_threshold")
+
+    def score(r: dict[str, float]) -> float:
+        return -fp_cost * r["fp"] - fn_cost * r["fn"] if metric == "cost" else r[metric]
+
     return max(sweep, key=lambda r: (score(r), r["threshold"]))["threshold"], sweep
 
 

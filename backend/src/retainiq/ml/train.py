@@ -3,7 +3,7 @@
 import math
 import time
 from dataclasses import dataclass
-from typing import Any, cast
+from typing import Any
 
 from sklearn.ensemble import (
     ExtraTreesClassifier,
@@ -62,7 +62,9 @@ class Fitted:
     def scores(self, rows: list[dict[str, int]]) -> list[float]:
         design = [self.state.apply(row) for row in rows]
         if hasattr(self.estimator, "feature_name_"):
-            arr = self.estimator.booster_.predict(design, num_threads=1)
+            from numpy import asarray
+
+            arr = self.estimator.booster_.predict(asarray(design), num_threads=1)
         else:
             arr = self.estimator.predict_proba(design)[:, 1]
         result = [float(p) for p in arr]
@@ -137,7 +139,7 @@ def train(v: View, family: str, outer: int, quick: bool = False) -> Procedure:
     cal = subset(v, [i for i, f in enumerate(roles) if f == 0])
     decision = subset(v, [i for i, f in enumerate(roles) if f == 1])
     inner = folds(core, 3)
-    candidates = []
+    candidates: list[dict[str, Any]] = []
     start = time.perf_counter()
     with threadpool_limits(limits=1):
         for fs in ["FS01"] if quick else SETS:
@@ -157,7 +159,7 @@ def train(v: View, family: str, outer: int, quick: bool = False) -> Procedure:
             raise RuntimeError("no_candidate_completed")
         best = max(float(c["ap"]) for c in complete)
         choice = next(c for c in complete if float(c["ap"]) >= best - 0.002)
-        config = cast(dict[str, Any], choice["parameters"])
+        config: dict[str, Any] = choice["parameters"]
         feature = str(choice["fs"])
         base = fit_base(core, family, feature, config, outer)
         methods = calibrators(base.scores(cal.x), cal.y)

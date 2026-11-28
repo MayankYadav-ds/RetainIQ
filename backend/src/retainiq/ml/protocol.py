@@ -54,12 +54,20 @@ SPEC = {
     "calibration": ["none", "sigmoid", "isotonic"],
     "isotonic_min_per_class": 30,
     "threshold": "max_f2_over_0.05_to_0.95_steps_0.01_ties_higher",
-    "selection": "raw pooled OOF average precision within 0.002, then calibrated Brier within 0.001, then fixed complexity order",
-    "calibration_selection": "policy-set Brier; ties within 0.0001 prefer none, then sigmoid, then isotonic",
+    "selection": (
+        "raw pooled OOF average precision within 0.002, "
+        "then calibrated Brier within 0.001, then fixed complexity order"
+    ),
+    "calibration_selection": (
+        "policy-set Brier; ties within 0.0001 prefer none, then sigmoid, then isotonic"
+    ),
     "bootstrap_replicates": 200,
     "risk_bands": BANDS,
     "failure": "record type and skip incomplete procedure",
     "size_limit": 8000000,
-    "promotion": "complete OOF, safe round-trip, finite predictions and completed final receipt; no accuracy floor",
+    "promotion": (
+        "complete OOF, safe round-trip, finite predictions and "
+        "completed final receipt; no accuracy floor"
+    ),
 }
 PROTOCOL_SHA = digest(encoded(SPEC))
