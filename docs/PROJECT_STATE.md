@@ -1,31 +1,25 @@
 # RetainIQ handoff · 2026-11-28
 
-**Phase 2 COMPLETE. Version 0.3.0.** Phase 2 adds a verified development-only statistical workspace and feature engineering pipeline. Phase 1 source registry, Data Explorer and API readiness remain operational. Service expenditure is INR 0. The application runs locally. No public deployment, model training or estimator benchmarking occurred.
+**Phase 3 COMPLETE. Version 0.4.0.** Phase 3 adds nested grouped benchmarking, an evaluated and reloadable calibrated champion, Model Lab and the prediction simulator. Service expenditure INR 0. Local execution only. No production deployment or explanation integration.
 
-## Scientific scope
+## Frozen evidence
 
-Source dataset 461e2bba687bc6e8f52284c9 was verified against its pinned raw and normalized checksums. The eight approved operational fields created 16 shared projected groups across the original 2,520/630 split. The pre-analysis rule quarantined 40 development observations, leaving 2,480. Seventy-eight held-out observations were in the shared groups. The holdout checksum before and after analysis was e9509c84629e8e03827d8d27823216c9a890b86cc589f7afa77b1265584ba63a. No holdout label was selected by the auditor or used by any analytical operation. See [partition integrity](PARTITION_INTEGRITY.md).
+Original UCI version 461e2bba687bc6e8f52284c9, eligible view 136a09a0f2ec6a66bf3ca6f3. All frozen references verified before training. The five outer folds remain as published in Phase 2. The benchmark attempted 210 configurations over five outer folds for seven learned models. All completed. Two reference baselines completed. The second development benchmark reproduced OOF prediction bytes. Read the [protocol](ML_EXPERIMENT_PROTOCOL.md) and [benchmark results](MODEL_BENCHMARK.md).
 
-Five grouped validation folds retain both classes and preserve duplicate groups. The report documents the 15.0% eligible churn prevalence, feature associations, distribution tails and empirical redundancy. The feature catalog provides three unfitted candidates and a shared batch/single-record transform. The demonstration preprocessing state applies only to the identified development training fold. See [EDA](EXPLORATORY_DATA_ANALYSIS.md), [statistics](STATISTICAL_ANALYSIS.md), [folds](VALIDATION_FOLDS.md) and [feature catalog](FEATURE_CATALOG.md).
+Frozen model 2234d0279bb9bd18d77c27b3 is histogram gradient boosting with FS01, balanced class weights, 100 iterations and 15 maximum leaf nodes. Sigmoid calibration won on the disjoint policy set. Operating threshold 0.28. Artifact 589,194 bytes. Local restoration reproduced original probabilities exactly. [Calibration](PROBABILITY_CALIBRATION.md) · [Registry and trust boundary](MODEL_REGISTRY.md)
 
-## Reproduction and validation
+The final receipt 6f0e95d28d791f4d703cdac4743432f762805a0374f24569bbb878f33f034b79 records one evaluation of all 630 held-out rows and the prespecified reference baselines. AP 0.8061, ROC-AUC 0.9598 and Brier 0.05752. No scientific choices changed after holdout access. Independent arithmetic checked metrics, ranking, calibration and frozen threshold. A repeat command verified and returned the same receipt without recomputing predictions. Private OOF rows, final predictions, memberships and model artifacts remain ignored. [Final evaluation](FINAL_EVALUATION.md)
 
-See [commands and API opt-in](FEATURE_ENGINEERING.md). Real UCI run view 136a09a0f2ec6a66bf3ca6f3 reproduced identical hashes in 0.856 and 0.875 seconds including interpreter startup. A separate Windows Python process recorded peak working set 52,260,864 bytes (49.84 MiB). Both preprocessing families had zero non-finite values and all three variants matched batch and individual results. Independent reconciliation used arithmetic distinct from the main implementation.
+## Verification
 
-| Local artifact | SHA-256 |
-|---|---|
-| Aggregate JSON | 4b80d2dbf5dfd1f680c2bd055c01cc1aa54527780d589b1ebc8099feb647a426 |
-| Aggregate Markdown | 7c846809c8dbc1de1875b159c3f725512530db7ae89c856d44459d4905c68664 |
-| Fold membership | 82a46397d506eca6252994b2999fb2013a01579aa5c49ab49fa53abcd38bd776 |
-| Feature matrices | ab3cf764019b67d1e3085ee70ddd5a07e7474e98899c80f37c1721428d7706c7 |
-| Fold demonstration state | e1f18e108d266733f7db4075345bf97598c1179e4ee58ea79118ef4ef9af01a2 |
+Windows passed 58 Pytest, 13 Vitest and 5 Playwright tests. Local checks included Ruff lint and format, strict Mypy, ESLint, TypeScript, Vite build, pip check and Git whitespace review. The fitted UCI model was exercised through real Model Lab and Prediction simulator pages, existing analytical views, a 100-record batch and strict input rejection. Browser screenshots contain aggregate evidence and invented inputs. Servers were stopped afterward.
 
-Windows passed Ruff lint and formatting, strict Mypy, ESLint, TypeScript, Vite build, pip check and whitespace review. Pytest 55/55, Vitest 11/11, Chromium 4/4. Screenshots of the three real aggregate pages were captured locally. Existing TestClient and intentional duplicate ZIP warnings remain. A frontend optional-binding startup failure was resolved with npm ci --include=optional; the lock versions did not change.
+The executable release is commit 9f9d7e39dec1cb8f92e8850955a38224e3b00a9d. [Hosted Ubuntu workflow](https://github.com/MayankYadav-ds/RetainIQ/actions/runs/46155686489). Hosted Ubuntu passed 58 Pytest, 13 Vitest and 5 Chromium tests plus all applicable quality gates. It ran a bounded synthetic nested benchmark and actual browser inference with a synthetic-trained verified model. The current workflow actions emit a Node runtime deprecation notice. The handoff commit changes documentation only.
 
-Implementation commit 7a55c17670b0cd784093116f76bafd7237e8da62 passed 55 backend, 11 frontend and 4 browser tests, plus lint, formatting, strict typing, build, dependency and whitespace checks, in the [hosted release workflow](https://github.com/MayankYadav-ds/RetainIQ/actions/runs/46117999712). The handoff commit changes documentation only. Hosted CI uses deterministic synthetic records. Real-data verification across Linux and Windows was not performed.
+TestClient deprecation and deliberately duplicated ZIP-member warnings predate the phase. The initial synthetic training test exposed insufficient minority support for five inner role folds. Synthetic-only quick mode now uses four role folds and two core folds. The real benchmark and final protocol stayed fixed. No Docker, PostgreSQL, genuine Ubuntu benchmark or external validation was run. Local skops and optional boosters require trusted artifacts, exact dependencies and OS access controls.
 
-## Next authorized phase
+## Phase 4 handoff
 
-Phase 3 can use the frozen eligible view and outer fold assignments for model development. Establish inner grouped folds for tuning, calibration and threshold choice and freeze these choices before using the final holdout. Leave status, customer value, charge band and demographic fields outside operational predictors. Source IDs, event timestamps, treatment effects and exact horizons remain unavailable. Customer independence cannot be proven. Demographic subgroup exploration, deployment, PostgreSQL, Docker and tenant authentication were outside this phase.
+Use the stored ordered FS01 design and underlying estimator decision margin for tree explanation research. Verify SHAP support for the exact estimator and additivity on the raw margin. Calibration is a separate nonlinear probability transform. Do not attempt to apply it to individual feature contributions. Future model changes require fresh independent data. The UCI holdout is consumed by this procedure. No Phase 4 work was started. [Model card](MODEL_CARD.md) · [Operator commands](PREDICTION_API.md)
 
-Starting commit e61a258d1fd71b4c0d5c9f9c070304fe5cfdcf25. The [Phase 1 handoff](https://github.com/MayankYadav-ds/RetainIQ/blob/e61a258d1fd71b4c0d5c9f9c070304fe5cfdcf25/docs/PROJECT_STATE.md) preserves acquisition evidence. Phase 2 commits are listed in the local main branch history.
+Starting commit 7200243d5c91af1cb1fb485f49b4d3eb1c2cab82. [Phase 2 handoff](https://github.com/MayankYadav-ds/RetainIQ/blob/7200243d5c91af1cb1fb485f49b4d3eb1c2cab82/docs/PROJECT_STATE.md).

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0 — 2026-11-28
+Nested model benchmarking, calibrated histogram gradient boosting, frozen final evaluation, local prediction endpoints, Model Lab and Prediction simulator.
+
 ## 0.3.0 — 2026-11-28
 Projected-feature contamination audit, frozen grouped development folds, exploratory statistics, fold-scoped preprocessing and Analytics, Feature Lab and Evaluation design pages.
 

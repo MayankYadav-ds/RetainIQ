@@ -1,5 +1,5 @@
 # Permanent engineering constraints
-Stop after Phase 2 until Phase 3 is authorized. Use the frozen audited eligible view for exploratory analysis and grouped training. Fit preprocessing only inside each development training fold. Never expose protected holdout rows, membership, raw records or private paths. Bump pipeline identity on output-affecting changes. Read docs/PROJECT_STATE.md first.
+Stop after Phase 3 until Phase 4 is authorized. Treat the original holdout as consumed by the frozen Phase 3 procedure and never use it to tune later models. Use the frozen audited eligible view for exploratory analysis and grouped training. Fit preprocessing only inside each development training fold. Never expose protected holdout rows, membership, raw records or private paths. Bump pipeline identity on output-affecting changes. Read docs/PROJECT_STATE.md first.
 Keep total expenditure at INR 0: no billing details, paid services or paid runners.
 Preserve unrelated repositories and existing remotes; never force-push.
 Never commit secrets, customer data, restricted datasets, caches or model artifacts.

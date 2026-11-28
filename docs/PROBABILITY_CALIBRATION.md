@@ -1,0 +1,11 @@
+# Calibration and threshold policy
+
+For each outer training complement, the tuning core and its inner validation determine the base model configuration. The core-only model predicts a separate calibration subset and a separate policy subset. The calibration subset fits sigmoid and, with at least 30 of each class, isotonic. Identity is a candidate. The held-back policy subset selects the calibrator by Brier score and selects the maximum-F2 threshold. The policy subset was excluded from both fits used to generate those scores. Calibrator and threshold are frozen before a base refit on the full training complement. The score distribution can shift from the core-only model to the full-training model; outer validation measures the combined procedure.
+
+The final UCI policy set Brier scores were identity **0.061470**, sigmoid **0.050667**, isotonic **0.055059**. Sigmoid was selected. It maps the clipped uncalibrated log-odds using slope 0.677156 and intercept -0.806441 before sigmoid conversion. This scale and offset are calibration parameters, not evidence of a deployment-population calibration slope.
+
+The frozen decision is churn for calibrated probability p ≥ **0.28**. Development-only policy comparisons can use F1, F2, constrained precision/recall or explicit false-positive/false-negative costs. The selected objective was maximum F2 on the preregistered grid. The dashboard includes a pooled development threshold explorer with 0.50 available for comparison. Top-K ranking uses the uncalibrated probability, independent of the decision threshold. K rounds up and ties use stable source order. There is no observed monetary value with which to weight recall.
+
+Reliability diagrams use ten equal-width bins including 1 in the last bin. Report bin counts and treat sparse bins cautiously. ECE is count-weighted absolute bin discrepancy. Final grouping-based bootstrap intervals condition on the frozen predictions and exclude class-degenerate draws. They do not account for model selection or training variability. Production calibration and causal effects remain unverified.
+
+The risk display uses calibrated p in [0,0.10), [0.10,0.25), [0.25,0.50), [0.50,1]. Labels are low, moderate, high and critical. These descriptive bands have no empirically validated intervention content.

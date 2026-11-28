@@ -1,6 +1,6 @@
 # RetainIQ
 
-RetainIQ is a local-first customer retention intelligence platform. Version 0.3.0 adds audited development-only analytics, grouped folds, and reproducible feature and preprocessing contracts. The landing page shows which capabilities are available and which are planned. The repository contains no customer data or trained model.
+RetainIQ is a local-first customer retention intelligence platform. Version 0.4.0 adds a protected churn benchmark, calibrated local inference, Model Lab and Prediction simulator. The landing page shows which capabilities are available and which are planned. The repository contains source code and aggregate evidence. Trained model artifacts and customer records stay in the local data store.
 
 ## Run locally on Windows
 
@@ -63,3 +63,7 @@ Run the full local workflow with `backend/.venv/Scripts/retainiq-data run --data
 ## Development analytics
 
 Run the [Phase 2 workflow](docs/FEATURE_ENGINEERING.md) after UCI ingestion. It verifies the original partition checksums, excludes shared approved-feature vectors from development and generates the local aggregate report. To enable the UCI report in the local API, set RETAINIQ_ANALYTICS_DATASETS to the JSON list of approved dataset IDs before backend startup. Open Analytics, Feature Lab or Evaluation design from the navigation.
+
+## Machine learning and local inference
+
+See the [operator commands](docs/PREDICTION_API.md), [benchmark](docs/MODEL_BENCHMARK.md), [final holdout evidence](docs/FINAL_EVALUATION.md) and [model card](docs/MODEL_CARD.md).
