@@ -32,3 +32,4 @@ mypy_path = "src"
 
 [project.scripts]
 retainiq-data = "retainiq.data.cli:main"
+retainiq-analysis = "retainiq.analysis.cli:main"

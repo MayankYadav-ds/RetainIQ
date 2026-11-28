@@ -27,3 +27,4 @@ data/staging/
 data/manifests/
 data/reports/
 **/.retainiq-data/
+data/analysis/
