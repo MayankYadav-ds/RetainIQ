@@ -723,3 +723,40 @@ footer > span:last-child {
   background: var(--accent);
   min-height: 0.65rem;
 }
+
+.model-lab .table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.model-lab .table-scroll table {
+  min-width: 650px;
+}
+.model-lab figure {
+  margin: 1rem 0;
+}
+.model-lab canvas {
+  max-width: 100%;
+  height: auto;
+}
+.model-lab input[type="range"] {
+  display: block;
+  width: min(100%, 380px);
+}
+.prediction-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+  gap: 1rem;
+}
+.prediction-form label {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.prediction-form input,
+.prediction-form select {
+  width: 100%;
+  padding: 0.5rem;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid currentColor;
+  border-radius: 5px;
+}

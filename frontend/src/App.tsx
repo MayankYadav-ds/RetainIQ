@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { verifyConnection, type Connection } from "./api";
 
 import Analytics from "./Analytics";
+import ModelLab, { Simulator } from "./ModelLab";
 import DataExplorer from "./DataExplorer";
 
 type Status =
@@ -78,6 +79,8 @@ export default function App() {
         <nav aria-label="Main navigation">
           <a href="#datasets">Data Explorer</a>
           <a href="#analytics">Analytics</a>
+          <a href="#models">Model Lab</a>
+          <a href="#predict">Prediction simulator</a>
           <a href="#features">Feature Lab</a>
           <a href="#evaluation">Evaluation design</a>
           <a href="#approach">Approach</a>
@@ -96,9 +99,13 @@ export default function App() {
         </button>
       </header>
       <main id="main">
-        {explorer === "#analytics" ||
-        explorer === "#features" ||
-        explorer === "#evaluation" ? (
+        {explorer === "#models" ? (
+          <ModelLab />
+        ) : explorer === "#predict" ? (
+          <Simulator />
+        ) : explorer === "#analytics" ||
+          explorer === "#features" ||
+          explorer === "#evaluation" ? (
           <Analytics
             mode={
               explorer === "#analytics"
