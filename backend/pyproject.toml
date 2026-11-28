@@ -7,9 +7,10 @@ name = "retainiq"
 version = "0.3.0"
 description = "Local-first retention intelligence foundation"
 requires-python = ">=3.11,<3.14"
-dependencies = ["fastapi", "uvicorn", "pydantic-settings", "sqlalchemy", "alembic", "httpx"]
+dependencies = ["fastapi", "uvicorn", "pydantic-settings", "sqlalchemy", "alembic", "httpx", "scikit-learn==1.7.2", "skops==0.13.0", "threadpoolctl==3.8.0"]
 
 [project.optional-dependencies]
+boost = ["xgboost==3.0.5", "lightgbm==4.6.0"]
 dev = ["pytest", "pytest-cov", "ruff", "mypy"]
 
 [tool.setuptools.packages.find]
@@ -33,3 +34,7 @@ mypy_path = "src"
 [project.scripts]
 retainiq-data = "retainiq.data.cli:main"
 retainiq-analysis = "retainiq.analysis.cli:main"
+
+[[tool.mypy.overrides]]
+module = ["sklearn.*", "skops.*", "threadpoolctl", "xgboost", "lightgbm"]
+ignore_missing_imports = true

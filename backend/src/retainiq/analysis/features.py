@@ -101,8 +101,16 @@ def fit(view: View, membership: list[int], fold: int, fs: str, family: str, role
     for row, i in zip(view.x, membership, strict=True):
         if i < 0 or membership_by_group.setdefault(key(row, APPROVED), i) != i:
             raise ValueError("invalid_fold_groups")
+    rows = [x for x, f in zip(view.x, membership, strict=True) if f != fold]
+    return fit_subset(rows, fs, family, fold)
+
+
+def fit_subset(rows: list[dict[str, int]], fs: str, family: str, fold: int) -> FoldState:
+    """Fit on a caller-provided and already isolated development training subset."""
+    if family not in ("linear", "tree"):
+        raise ValueError("invalid_fit_family")
     schema = fingerprint(fs)
-    train = [design(x, fs, schema) for x, f in zip(view.x, membership, strict=True) if f != fold]
+    train = [design(x, fs, schema) for x in rows]
     if not train:
         raise ValueError("empty_training_fold")
     names = [n for n in SETS[fs] if n != "tariff_plan"] + ["tariff_contract", "tariff_unknown"]
