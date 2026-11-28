@@ -198,7 +198,13 @@ export default function ModelLab() {
   const rows = [...(board?.leaderboard ?? [])].sort((a, b) => {
     const value = (l: Leader) =>
       sort === "seconds" ? l.seconds : l.metrics?.[sort];
-    return (value(b) ?? -Infinity) - (value(a) ?? -Infinity);
+    const first = value(a),
+      second = value(b);
+    if (first == null) return second == null ? 0 : 1;
+    if (second == null) return -1;
+    return sort === "brier" || sort === "seconds"
+      ? first - second
+      : second - first;
   });
   const curve =
     chart &&

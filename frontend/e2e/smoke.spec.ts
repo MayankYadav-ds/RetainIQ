@@ -5,7 +5,7 @@ test("built frontend connects to actual backend and survives API failure", async
 }) => {
   await page.goto("/");
   await expect(page.getByText("Backend connected")).toBeVisible();
-  await expect(page.getByText("v0.3.0 · Database reachable")).toBeVisible();
+  await expect(page.getByText("v0.4.0 · Database reachable")).toBeVisible();
   const ready = await page.request.get("http://127.0.0.1:8000/ready");
   expect(await ready.json()).toEqual({
     status: "ready",
@@ -92,4 +92,44 @@ test("analytics pages render actual synthetic aggregates on mobile", async ({
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+test("model lab and simulator use an evaluated synthetic-trained model", async ({
+  page,
+  request,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/#models");
+  await expect(
+    page.getByRole("heading", { name: "Development leaderboard" }),
+  ).toBeVisible();
+  await expect(page.getByRole("rowheader", { name: "logistic" })).toBeVisible();
+  await page.getByLabel("Chart", { exact: true }).selectOption("calibration");
+  await expect(
+    page.getByRole("table", { name: "Reliability bins" }),
+  ).toBeVisible();
+  await page.getByLabel("Evaluation scope").selectOption("final");
+  await expect(
+    page.getByRole("table", {
+      name: "Confusion at frozen operating threshold",
+    }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Threshold 50%")).toHaveCount(0);
+  await page.getByRole("link", { name: "Prediction simulator" }).click();
+  await page.getByRole("button", { name: "Predict churn" }).click();
+  await expect(
+    page.getByRole("heading", { name: /Churn probability/ }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Dark theme" }).click();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  const bad = await request.post(
+    "http://127.0.0.1:8000/api/v1/predictions/batch",
+    { data: { rows: [] } },
+  );
+  expect(bad.status()).toBe(422);
 });

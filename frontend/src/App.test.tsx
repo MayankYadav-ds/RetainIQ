@@ -2,7 +2,7 @@ import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import App from "./App";
 import { verifyConnection } from "./api";
-const version = { name: "RetainIQ", version: "0.3.0", phase: 2 };
+const version = { name: "RetainIQ", version: "0.4.0", phase: 3 };
 const ready = { status: "ready", database: "reachable" };
 const fetchMock = vi.fn();
 beforeEach(() => {
@@ -49,7 +49,7 @@ describe("application", () => {
     success();
     render(<App />);
     await screen.findByText("Backend connected");
-    expect(screen.getByText("v0.3.0 · Database reachable")).toBeInTheDocument();
+    expect(screen.getByText("v0.4.0 · Database reachable")).toBeInTheDocument();
     expect(fetchMock.mock.calls.map((c) => c[0])).toEqual(
       expect.arrayContaining([
         "http://127.0.0.1:8000/ready",

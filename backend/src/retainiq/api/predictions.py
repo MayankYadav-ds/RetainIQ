@@ -50,10 +50,21 @@ class Model(BaseModel):
     limitations: str = LIMITATIONS
 
 
+class Leader(BaseModel):
+    family: str
+    status: str
+    metrics: dict[str, float | None] | None = None
+    features: list[str] | None = None
+    calibration: list[str] | None = None
+    seconds: float | None = None
+    ap_sd: float | None = None
+    failure: str | None = None
+
+
 class Evidence(BaseModel):
     experiment: str
     selected: str
-    leaderboard: list[dict[str, Any]]
+    leaderboard: list[Leader]
     development: dict[str, Any]
     threshold_sweep: list[dict[str, float]]
     uncertainty: dict[str, Any]

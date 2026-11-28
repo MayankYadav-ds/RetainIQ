@@ -12,7 +12,7 @@ export default defineConfig({
   use: { baseURL: "http://127.0.0.1:4173", browserName: "chromium" },
   webServer: [
     {
-      command: `"${python}" ../scripts/prepare_analysis_fixture.py && "${python}" -m uvicorn retainiq.main:create_app --factory --no-access-log --host 127.0.0.1 --port 8000`,
+      command: `"${python}" ../scripts/prepare_analysis_fixture.py --serve`,
       url: "http://127.0.0.1:8000/ready",
       reuseExistingServer: false,
       env: {

@@ -13,6 +13,7 @@ from .benchmark import benchmark, load_benchmark
 from .cohort import cohort
 from .final import evaluate_final
 from .inference import Input, Service
+from .metrics import chart_data
 from .protocol import PROTOCOL_SHA, SPEC
 from .registry import freeze, load_model, models
 
@@ -43,6 +44,11 @@ def main() -> int:
     p.add_argument("--ack-final", action="store_true")
     p.add_argument("--quick", action="store_true", help="Only for the synthetic fixture")
     p.add_argument("--json", action="store_true")
+    p.add_argument(
+        "--detailed",
+        action="store_true",
+        help="Compute aggregate diagnostics for all stored OOF predictions",
+    )
     a = p.parse_args()
     try:
         result: Any
@@ -67,7 +73,13 @@ def main() -> int:
         elif a.command == "compare":
             if not a.experiment:
                 raise ValueError("experiment_required")
-            result = load_benchmark(a.root, a.experiment)[1]
+            folder, result = load_benchmark(a.root, a.experiment)
+            if a.detailed:
+                oof = json.loads((folder / "oof.json").read_bytes())
+                result["diagnostics"] = {
+                    family: chart_data(row["y"], row["raw"], row["probability"])
+                    for family, row in oof.items()
+                }
         elif not a.model:
             raise ValueError("model_required")
         elif a.command == "evaluate-final":

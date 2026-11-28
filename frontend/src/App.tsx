@@ -148,8 +148,8 @@ export default function App() {
                   </a>
                 </div>
                 <p className="phase-note">
-                  <span className="phase-pill">PHASE 2</span> Data engineering ·
-                  No trained model yet
+                  <span className="phase-pill">PHASE 3</span> Churn benchmark ·
+                  Local benchmark inference
                 </p>
               </div>
               <aside
@@ -205,7 +205,7 @@ export default function App() {
                 </div>
                 <div className="card-bottom">
                   <span>Prediction engine</span>
-                  <span>Not implemented</span>
+                  <span>Open Model Lab</span>
                 </div>
               </aside>
             </section>
@@ -267,9 +267,8 @@ export default function App() {
                 <div>
                   <dt>Dataset evidence</dt>
                   <dd>
-                    The Data Explorer shows approved aggregate metadata.
-                    Predictions, explanations and simulations are not available
-                    yet.
+                    The Data Explorer shows approved aggregate metadata. Local
+                    churn predictions require an approved active model.
                   </dd>
                 </div>
                 <div>
@@ -289,7 +288,7 @@ export default function App() {
           Retain<span>IQ</span>
         </a>
         <span>Evidence before impact.</span>
-        <span>v0.3.0 · Phase 2</span>
+        <span>v0.4.0 · Phase 3</span>
       </footer>
     </>
   );
